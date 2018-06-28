@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
     struct addrinfo hints, *servinfo, *p;
     memset(&hints, 0, sizeof(hints));
     hints.ai_family = AF_INET;
-    hints.ai_socktype = SOCK_DGRAM;
+    hints.ai_socktype = SOCK_STREAM;
     int rv, sockfd;
     char msg[50];
 
@@ -46,17 +46,20 @@ int main(int argc, char* argv[])
     }
 	
 	/*error check and initialize obtaining sockfd*/
-	if ((sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1) {
+	if ((sockfd = socket(servinfo->ai_family, servinfo->ai_socktype, servinfo->ai_protocol)) == -1) {
     	printf("socket file descriptor init failed\n");
     	printf("error def: %s\n", gai_strerror(sockfd));
         return 1;
     }
     
     /*error check and intialize connection to fg server*/
-    if (connect(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
+    if ((rv = connect(sockfd, servinfo->ai_addr, servinfo->ai_addrlen)) < 0) {
     	close(sockfd);
         printf("connection failed to open\n");
+        printf("error number is: %d def: %s\n", errno, gai_strerror(errno));
         return 1;
     }
+
+    printf("congrats my dude!\n");
 	return 0;
 }

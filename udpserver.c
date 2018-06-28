@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 {
         int sock_in, sock_out;
         int addr_len, bytes_read;
-        //char recv_data[1024];
+        char recv_data[1024];
         char exitcode = 'N';
         float fdmData[100];
         float aileron_ctrl, pitch_ctrl;
