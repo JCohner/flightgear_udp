@@ -10,6 +10,19 @@
 #include <stdlib.h>
 #include <math.h>
 
+#define PORT "5500" // the port client will be connecting to 
+
+#define MAXDATASIZE 100 // max number of bytes we can get at once 
+
+void *get_in_addr(struct sockaddr *sa)
+{
+    if (sa->sa_family == AF_INET) {
+        return &(((struct sockaddr_in*)sa)->sin_addr);
+    }
+
+    return &(((struct sockaddr_in6*)sa)->sin6_addr);
+}
+
 int main (int argc, char* argv[]){
 	int sockfd, numbytes;  
     char buf[MAXDATASIZE];
@@ -33,7 +46,7 @@ int main (int argc, char* argv[]){
     currently: 10.1.12.128 and PORT is 5500
     */
     if ((rv = getaddrinfo(argv[1], PORT, &hints, &servinfo)) != 0) {
-        fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(rv));
+        fprintf("get address info failed yo!\n");
         return 1;
     }
 
@@ -41,13 +54,13 @@ int main (int argc, char* argv[]){
     for(p = servinfo; p != NULL; p = p->ai_next) {
         if ((sockfd = socket(p->ai_family, p->ai_socktype,
                 p->ai_protocol)) == -1) {
-            perror("client: socket");
-            continue;
+           printf("socket failed to initialize man!\n");
+           continue;
         }
 
         if (connect(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
             close(sockfd);
-            perror("client: connect");
+            printf("connect failed, bummer!\n");
             continue;
         }
 
@@ -55,7 +68,7 @@ int main (int argc, char* argv[]){
     }
 
     if (p == NULL) {
-        fprintf(stderr, "client: failed to connect\n");
+        printf("client: failed to connect, sad!\n");
         return 2;
     }
 
@@ -64,17 +77,17 @@ int main (int argc, char* argv[]){
     printf("client: connecting to %s\n", s);
 
     freeaddrinfo(servinfo); // all done with this structure
-
+    /*
     if ((numbytes = recv(sockfd, buf, MAXDATASIZE-1, 0)) == -1) {
         perror("recv");
         exit(1);
     }
 
     buf[numbytes] = '\0';
-
+	
     printf("client: received '%s'\n",buf);
-
+	*/
     close(sockfd);
-
+    printf("if you reached here you have successfully opened and closed the socket\n");
     return 0;
 }
