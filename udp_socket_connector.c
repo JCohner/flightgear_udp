@@ -12,22 +12,21 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define PORT "5500"
+#define PORT "1917"
 
 
 int main(int argc, char* argv[])
 {
-    int sock_in, sock_out;
     int addr_len, bytes_read;
     char recv_data[1024];
-    struct sockaddr_in server_addr_in , client_addr_in;
-    struct sockaddr_in server_addr_out;
+    char send_data[1024];
     struct addrinfo hints, *servinfo, *p;
     memset(&hints, 0, sizeof(hints));
     hints.ai_family = AF_INET;
-    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_socktype = SOCK_DGRAM;
     int rv, sockfd;
-    char msg[50];
+    int msg_len = 0;
+    float altitude = 10000;
 
     /*error check argument inputs*/
     if (argc != 2) {
@@ -37,12 +36,14 @@ int main(int argc, char* argv[])
 
     /*
     	error check get addr info, else put into servinfo
-    	currently: 10.1.12.128 and PORT is 5500 
+    	currently: 10.1.12.128 and PORT is 5001
     */
     if ((rv = getaddrinfo(argv[1], PORT, &hints, &servinfo)) != 0) {
        	printf("getaddrinfo failed! rv = %d \n",rv);
        	printf("error def: %s\n", gai_strerror(rv));
        	return -1;
+    } else {
+        printf("addr info obtained!\n");
     }
 	
 	/*error check and initialize obtaining sockfd*/
@@ -50,6 +51,8 @@ int main(int argc, char* argv[])
     	printf("socket file descriptor init failed\n");
     	printf("error def: %s\n", gai_strerror(sockfd));
         return 1;
+    } else {
+        printf("socket file descriptor obtained!\n");
     }
     
     /*error check and intialize connection to fg server*/
@@ -58,8 +61,16 @@ int main(int argc, char* argv[])
         printf("connection failed to open\n");
         printf("error number is: %d def: %s\n", errno, gai_strerror(errno));
         return 1;
+    } else {
+        printf("no error in datagram socket connect!\n");
     }
 
-    printf("congrats my dude!\n");
+    msg_len = sprintf(send_data, "%.2f\n", altitude);
+    // Print Control inputs to stdout
+    printf("\nSetting alititude to:\n%s\n", send_data);          
+    // Send UDP packet
+    printf("attempting to send %d bytes of data \n", msg_len);
+    send(sockfd, send_data, msg_len, 0);
+
 	return 0;
 }

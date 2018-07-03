@@ -8,40 +8,24 @@
 					C:\Program Files\FlightGear 2018.2.2\data\Protocol 
 					!!!!IMPORTANT!!!!!
 				-->
-				<!-- used at the end of sprintf statements-->
-				<line_separator>newline</line_separator> 
-				<!-- used between vars packed within an sprintf -->
-				<var_separator>tab</var_separator>
-
+				<line_separator>newline</line_separator> <!-- used at the end of sprintf statements-->
+				<!-- <var_separator>tab</var_separator> only needed for mulitple cars--><!-- used between vars packed within an sprintf -->
 				<!-- <binary_mode>true</binary_mode> comment this line back to swith to binary -->
-
 				<chunk>
-					<name>altitude</name>
+					<name>/position/altitude-ft</name>
 					<type>float</type>
 					<node>/position/altitude-ft</node>
 					<!-- <format>%f</format> only for outputs i believe-->
 				</chunk>
 
+				<!--not using this chunk rn
 				<chunk>
-					<name>pitch deg</name>
+					<name>/controls/flight/elevator</name>
+					<node>/controls/flight/elevator</node>
 					<type>float</type>
-					<node>/orientation/pitch-deg</node>
+					<format>%f</format>
 				</chunk>
-
-				<chunk>
-					<name>roll deg</name>
-					<type>float</type>
-					<node>/orientation/roll-deg</node>
-				</chunk>
-				
-				<chunk>
-					<name>yaw deg</name>
-					<type>float</type>
-					<node>/orientation/yaw-deg</node>
-				</chunk>
-
-				
-				
+				-->
 			</input>
 		</generic>
 	</PropertyList>
