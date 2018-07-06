@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+	<PropertyList>
+		<generic>
+			<input>
+				<!--
+					!!!!IMPORTANT!!!!!
+					make sure to save edits to this copy into 
+					C:\Program Files\FlightGear 2018.2.2\data\Protocol 
+					!!!!IMPORTANT!!!!!
+				-->
+				<!-- <binary_mode>true</binary_mode> -->
+				<!-- used at the end of sprintf statements-->
+				<line_separator>newline</line_separator> 
+				<!-- used between vars packed within an sprintf -->
+				<var_separator>tab</var_separator>
+
+				<chunk>
+					<name>altitude</name>
+					<type>float</type>
+					<node>/position/altitude-ft</node>
+					<!-- <format>%f</format> only for outputs-->
+				</chunk>
+
+				<chunk>
+					<name>latitude</name>
+					<type>float</type>
+					<node>/position/latitude-deg</node>
+				</chunk>
+
+				<chunk>
+					<name>longitude</name>
+					<type>float</type>
+					<node>/position/longitude-deg</node>
+				</chunk>
+
+				<chunk>
+					<name>pitch deg</name>
+					<type>float</type>
+					<node>/orientation/pitch-deg</node>
+				</chunk>
+
+				<chunk>
+					<name>roll deg</name>
+					<type>float</type>
+					<node>/orientation/roll-deg</node>
+				</chunk>
+
+				<!--
+				<chunk>
+					<name>yaw deg</name>
+					<type>float</type>
+					<node>/orientation/yaw-deg</node>
+				</chunk>
+				-->
+
+				<chunk>
+					<name>heading-deg</name>
+					<type>float</type>
+					<node>/orientation/heading-deg</node>
+				</chunk>
+				
+			</input>
+		</generic>
+	</PropertyList>
